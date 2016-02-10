@@ -92,7 +92,7 @@ function userInstances(user, token) {
   }
 
   if (ids.length) {
-    return _lodash2['default'].without(_lodash2['default'].unique(ids), null);
+    return _lodash2['default'].without(_lodash2['default'].uniq(ids), null);
   }
 
   return false;
