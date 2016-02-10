@@ -1,5 +1,5 @@
 {
-  "name": "util",
+  "name": "fj-util",
   "description": "Common utilities",
   "version": "0.0.1",
   "main": "lib/index.js",
