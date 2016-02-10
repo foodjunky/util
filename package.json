@@ -1,5 +1,5 @@
 {
-  "name": "fj-util",
+  "name": "foodjunky-util",
   "description": "Common utilities",
   "version": "0.0.1",
   "main": "lib/index.js",
