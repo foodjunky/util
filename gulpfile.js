@@ -1,13 +1,13 @@
 // Generated on 2015-12-23 using generator-angular-fullstack 3.1.1
 'use strict';
 
-import _ from 'lodash';
-import del from 'del';
-import gulp from 'gulp';
-import path from 'path';
-import gulpLoadPlugins from 'gulp-load-plugins';
-import lazypipe from 'lazypipe';
-import runSequence from 'run-sequence';
+var _ = require('lodash');
+var del = require('del');
+var gulp = require('gulp');
+var path = require('path');
+var gulpLoadPlugins = require('gulp-load-plugins');
+var lazypipe = require('lazypipe');
+var runSequence = require('run-sequence');
 
 var plugins = gulpLoadPlugins();
 var config;
@@ -28,13 +28,6 @@ let lintScripts = lazypipe()
     .pipe(plugins.jshint, 'lib/.jshintrc')
     .pipe(plugins.jshint.reporter, 'jshint-stylish');
 
-let transpile = lazypipe()
-    .pipe(plugins.sourcemaps.init)
-    .pipe(plugins.babel, {
-        optional: ['es7.classProperties']
-    })
-    .pipe(plugins.sourcemaps.write, '.');
-
 /********************
  * Tasks
  ********************/
@@ -44,6 +37,7 @@ gulp.task('clean', () => del(['dist/**']));
 gulp.task('copy', () => {
   return gulp.src([
     'package.json',
+    'lib'
   ], { cwdbase: true })
     .pipe(gulp.dest(paths.dist));
 });
@@ -51,12 +45,6 @@ gulp.task('copy', () => {
 gulp.task('lint', () => {
     return gulp.src(_.union(paths.scripts, _.map(paths.tests, blob => '!' + blob)))
         .pipe(lintScripts());
-});
-
-gulp.task('transpile', () => {
-    return gulp.src(paths.scripts)
-        .pipe(transpile())
-        .pipe(gulp.dest(paths.dist + '/lib'));
 });
 
 gulp.task('test', cb => {
@@ -102,7 +90,6 @@ gulp.task('build', cb => {
     'clean',
     'lint',
     'copy',
-    'transpile',
     cb);
 });
 
