@@ -61,6 +61,18 @@ describe('Safe extend', function() {
     assert.deepEqual(result, { a: 1, b: { d: 2 }, c: 3 });
   });
 
+  it('circular extend', function() {
+
+    var src = { a: 1 };
+    src.b = src;
+
+    var target = { a: 1 };
+    target.b = target;
+
+    var result = safeExtend(target, src, true);
+
+  });
+
   it('ignore equal properties to prevent setter calls', function() {
 
     var av = 1;
