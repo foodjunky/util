@@ -36,6 +36,14 @@ describe('Left compare', function() {
     expect(leftCompare({ field: 'value' }, { field: 'value' })).to.equal(true);
   });
 
+  it('Left array, right array match', function() {
+    expect(leftCompare(['xxx'], ['xxx'])).to.equal(true);
+  });
+
+  it('Left array, right array mismatch', function() {
+    expect(leftCompare(['xxx'], ['yyy'])).to.equal(false);
+  });
+
   it('Left subset object match', function() {
     expect(leftCompare({ field: 'value' }, { field: 'value', field2: 'value2' })).to.equal(true);
   });
