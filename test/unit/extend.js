@@ -61,6 +61,42 @@ describe('Safe extend', function() {
     assert.deepEqual(result, { a: 1, b: { d: 2 }, c: 3 });
   });
 
+  it('array member, unchanged', function() {
+    var member = { b: 1 };
+    var tgt = { a: [ member ] };
+    var src = { a: [ { b: 1 } ] };
+    var result = safeExtend(tgt, src, true);
+    expect(result).to.deep.equal({ a: [ { b: 1 } ] });
+    expect(tgt.a[0]).to.equal(member);
+  });
+
+  it('array member, changed', function() {
+    var member = { b: 1 };
+    var tgt = { a: [ member ] };
+    var src = { a: [ { b: 2 } ] };
+    var result = safeExtend(tgt, src, true);
+    expect(result).to.deep.equal({ a: [ { b: 2 } ] });
+    expect(tgt.a[0]).to.equal(member);
+  });
+
+  it('array member, add elements', function() {
+    var member = { b: 1 };
+    var tgt = { a: [ member ] };
+    var src = { a: [ { b: 2 }, { b: 3 } ] };
+    var result = safeExtend(tgt, src, true);
+    expect(result).to.deep.equal({ a: [ { b: 2 }, { b: 3 } ] });
+    expect(tgt.a[0]).to.equal(member);
+  });
+
+  it('array member, remove elements', function() {
+    var member = { b: 1 };
+    var tgt = { a: [ member, { b: 3 } ] };
+    var src = { a: [ { b: 2 } ] };
+    var result = safeExtend(tgt, src, true);
+    expect(result).to.deep.equal({ a: [ { b: 2 } ] });
+    expect(tgt.a[0]).to.equal(member);
+  });
+
   it('circular extend', function() {
 
     var src = { a: 1 };
