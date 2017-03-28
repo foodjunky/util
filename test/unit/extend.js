@@ -97,6 +97,13 @@ describe('Safe extend', function() {
     expect(tgt.a[0]).to.equal(member);
   });
 
+  it('array member, primitives', function() {
+    var tgt = { a: [ 'b' ] };
+    var src = { a: [ 'a', 'b' ] };
+    var result = safeExtend(tgt, src, true);
+    expect(result).to.deep.equal({ a: [ 'a', 'b' ] });
+  });
+
   it('circular extend', function() {
 
     var src = { a: 1 };
