@@ -67,7 +67,6 @@ describe('Safe extend', function() {
     var src = { a: [ { b: 1 } ] };
     var result = safeExtend(tgt, src, true);
     expect(result).to.deep.equal({ a: [ { b: 1 } ] });
-    expect(tgt.a[0]).to.equal(member);
   });
 
   it('array member, changed', function() {
@@ -76,7 +75,6 @@ describe('Safe extend', function() {
     var src = { a: [ { b: 2 } ] };
     var result = safeExtend(tgt, src, true);
     expect(result).to.deep.equal({ a: [ { b: 2 } ] });
-    expect(tgt.a[0]).to.equal(member);
   });
 
   it('array member, add elements', function() {
@@ -85,7 +83,6 @@ describe('Safe extend', function() {
     var src = { a: [ { b: 2 }, { b: 3 } ] };
     var result = safeExtend(tgt, src, true);
     expect(result).to.deep.equal({ a: [ { b: 2 }, { b: 3 } ] });
-    expect(tgt.a[0]).to.equal(member);
   });
 
   it('array member, remove elements', function() {
@@ -94,7 +91,6 @@ describe('Safe extend', function() {
     var src = { a: [ { b: 2 } ] };
     var result = safeExtend(tgt, src, true);
     expect(result).to.deep.equal({ a: [ { b: 2 } ] });
-    expect(tgt.a[0]).to.equal(member);
   });
 
   it('array member, primitives', function() {
@@ -102,6 +98,22 @@ describe('Safe extend', function() {
     var src = { a: [ 'a', 'b' ] };
     var result = safeExtend(tgt, src, true);
     expect(result).to.deep.equal({ a: [ 'a', 'b' ] });
+  });
+
+  // Can't leave properties that were defined in previous position but are missing now
+  it('array member, reorder elements', function() {
+
+    var first = [ { a: 1, b: 2 }, { a: 3 } ];
+    var second = [ { a: 3 }, { a: 1, b: 2 } ];
+
+    var member = { b: 1 };
+    var tgt = { a: [ member, { b: 3 } ] };
+    var src = { a: [ { b: 2 } ] };
+
+    var result = safeExtend({ l: second }, {l: first }, true);
+
+    expect(result).to.deep.equal({ l: [ { a: 1, b: 2 }, { a: 3 } ] });
+
   });
 
   it('circular extend', function() {
