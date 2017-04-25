@@ -90,6 +90,20 @@ describe('Safe extend', function() {
 
   });
 
+  it('date removed', function() {
+
+    var date1 = '2017-05-04T00:00:00Z';
+    var tgtDate = new Date(date1);
+
+    var tgt = { a: tgtDate };
+    var src = { a: null };
+
+    var changed = safeExtend.result(tgt, src, true);
+
+    expect(tgt).to.deep.equal({ a: null });
+
+  });
+
   it('array member, unchanged', function() {
     var member = { b: 1 };
     var tgt = { a: [ member ] };
