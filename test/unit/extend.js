@@ -61,6 +61,35 @@ describe('Safe extend', function() {
     assert.deepEqual(result, { a: 1, b: { d: 2 }, c: 3 });
   });
 
+  it('date changed', function() {
+
+    var date1 = '2017-05-04T00:00:00Z';
+    var date2 = '2017-05-05T08:00:00Z';
+    var tgtDate = new Date(date1);
+
+    var tgt = { a: tgtDate };
+    var src = { a: date2 };
+
+    var changed = safeExtend.result(tgt, src, true);
+
+    expect(tgt).to.deep.equal({ a: date2 });
+
+  });
+
+  it('date unchanged', function() {
+
+    var date1 = '2017-05-04T00:00:00Z';
+    var tgtDate = new Date(date1);
+
+    var tgt = { a: tgtDate };
+    var src = { a: date1 };
+
+    var changed = safeExtend.result(tgt, src, true);
+
+    expect(tgt).to.deep.equal({ a: tgtDate });
+
+  });
+
   it('array member, unchanged', function() {
     var member = { b: 1 };
     var tgt = { a: [ member ] };
